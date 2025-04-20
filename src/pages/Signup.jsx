@@ -1,68 +1,42 @@
-import React, { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { Button, Card, Form, Input, message } from 'antd'
-import { LockOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 export const Signup = () => {
-    const navigate = useNavigate();
-    const { signup } = useContext(AuthContext);
-    const onFinish = async (values) => {
-        const data = { ...values };
-        try {
-            const result = await signup(data);
-            console.log(result);
-            if(result.status === 201) {
-                message.success("kkk");
-                // navigate("/login");
-            } else {
-                message.error(result.message);
-            }
-        } catch (error) {
-            message.error(error.response.data.error);
-        }
+  const { signup } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ fullName: '', email: '', password: '' });
+  const [snackbar, setSnackbar] = useState({ open: false, severity: 'success', message: '' });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleClose = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const onFinish = async (e) => {
+    e.preventDefault();
+    const data = {
+      fullName: form.fullName,
+      email: form.email,
+      password: form.password,
+    };
+
+    const result = await signup(data);
+
+    if (result.status === 201) {
+      setSnackbar({ open: true, severity: 'success', message: result.data.message });
+      setTimeout(() => navigate('/login'), 1500);
+    } else {
+      setSnackbar({ open: true, severity: 'error', message: result.error });
     }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-    <Card title="Sign Up" className="w-full max-w-md shadow-md">
-      <Form name="signup" onFinish={onFinish} layout="vertical">
-        <Form.Item
-          name="fullName"
-          label="Name"
-          rules={[
-            { required: true, message: 'Please enter your Name' },
-            // { type: 'email', message: 'Invalid email format' },
-          ]}
-        >
-          <Input prefix={<UserAddOutlined />} placeholder="fullName" />
-        </Form.Item>
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Invalid email format' },
-          ]}
-        >
-          <Input prefix={<MailOutlined />} placeholder="Email" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[{ required: true, message: 'Please enter your password' }]}
-        >
-          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Sign Up
-          </Button>
-        </Form.Item>
-        <p className="text-center">
-          Already have an account? <Link to="/login">Log in</Link>
-        </p>
-      </Form>
-    </Card>
-  </div>
-  )
-}
+    <div className="flex items-center justify-center min-h-screen p-4">
+
+    </div>
+  );
+};
