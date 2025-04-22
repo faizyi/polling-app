@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Message } from '@/utils/Message';
@@ -23,7 +22,7 @@ export const Login = () => {
       const result = await login(form);
       setResponse(result);
       if (result.status === 200) {
-        setTimeout(() => navigate('/dashboard'), 1500);
+        // setTimeout(() => navigate('/dashboard'), 1500);
       }
     } catch (error) {
       setResponse(error.response);
@@ -31,66 +30,66 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-20 px-4">
-      <div className="w-full max-w-md space-y-4">
+    <>
+    <div className="flex items-center justify-center px-4">
+      <div className="w-full max-w-md space-y-6 mt-39">
         {response && (
           <div className="mb-4">
             <Message response={response} />
           </div>
         )}
 
-        <Card className="rounded-2xl shadow-xl border border-gray-200 bg-white">
-          <CardHeader className="text-center px-6 pt-6">
-            <CardTitle className="text-3xl font-semibold text-gray-800">
-              Welcome Back
+        <Card className="rounded-3xl shadow-lg border border-gray-200 bg-white ">
+          <CardHeader className="text-center">
+            <CardTitle className="text-3xl font-bold text-amber-600">
+              🔐 Welcome Back!
             </CardTitle>
             <p className="text-sm text-gray-500 mt-1">
-              Log in to access your account
+              Log in to join the community and cast your vote 🗳️
             </p>
           </CardHeader>
 
           <CardContent className="">
-            <form onSubmit={onFinish} className="space-y-2">
-
+            <form onSubmit={onFinish} className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email" className="text-gray-700">Email</Label>
                 <input
                   type="email"
                   name="email"
                   placeholder="john@example.com"
                   value={form.email}
                   onChange={handleChange}
-                  className="mt-1 border border-gray-300 rounded-md p-2 w-full
-    focus:outline-none focus:ring-0 focus:border-gray-400 focus-visible:outline-none"
+                  className="mt-1 border border-gray-300 rounded-lg p-3 w-full
+                  focus:outline-none"
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-gray-700">Password</Label>
                 <input
                   type="password"
                   name="password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={handleChange}
-                  className="mt-1 border border-gray-300 rounded-md p-2 w-full
-    focus:outline-none focus:ring-0 focus:border-gray-400 focus-visible:outline-none"
+                  className="mt-1 border border-gray-300 rounded-lg p-3 w-full
+                  focus:outline-none"
                   required
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-gray-500 text-black hover:bg-gray-400 font-medium text-md py-2 rounded-xl transition"
+                className="w-full bg-amber-700 text-white hover:bg-amber-600 font-semibold py-2.5 rounded-xl text-md transition"
               >
-                 🔐 Login
+                Log In
               </Button>
 
               <p className="text-sm text-center text-gray-600">
-              Don’t have an account?{' '}
-                <Link to="/signup" className="text-gray-500 hover:underline font-medium">
-                Sign up
+                Don’t have an account?{' '}
+                <Link to="/signup" className="text-amber-500 font-medium hover:underline">
+                  Sign up here
                 </Link>
               </p>
             </form>
@@ -98,5 +97,6 @@ export const Login = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };

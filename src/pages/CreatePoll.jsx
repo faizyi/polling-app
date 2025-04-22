@@ -37,8 +37,8 @@ export const CreatePoll = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-5 px-4">
-      <div className="w-full max-w-xl">
+    <div className="flex justify-center items-center px-4">
+      <div className="w-full max-w-xl mt-23">
         {response && <div className="mb-4"><Message response={response} /></div>}
         <Card className="rounded-2xl shadow-lg border border-gray-200 bg-white">
           <CardHeader className="rounded-t-2xl px-5 py-3">
@@ -79,7 +79,7 @@ export const CreatePoll = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gray-500 text-black hover:bg-gray-400 transition-colors font-semibold text-md py-2 rounded-xl"
+                className="w-full  bg-amber-700 text-white hover:bg-amber-600 transition-colors font-semibold text-md py-2 rounded-xl"
               >
                 🚀 Create Poll
               </Button>

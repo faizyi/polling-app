@@ -10,7 +10,7 @@ import { ProtectedRoute } from './services/ProtectedRoute'
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="">
       <Header/>
       <Routes>
         <Route path="/signup" element={<PublicRoute><Signup/></PublicRoute>} />

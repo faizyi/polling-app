@@ -14,10 +14,10 @@ export const Header = () => {
   };
 
   return (
-    <header className="w-full bg-white shadow-md px-6 py-4 flex flex-wrap items-center justify-between">
+    <header className="w-full bg-white shadow-md px-6 py-4 flex flex-wrap items-center justify-between fixed z-50">
       {/* App Name / Logo */}
       <Link to="/" className="text-2xl font-bold text-amber-500 tracking-tight">
-        🗳️ Polling App
+        🗳️ Pollify
       </Link>
 
       {/* Navigation Buttons */}

@@ -4,6 +4,7 @@ import { Loader } from 'lucide-react';
 import { getPolls, votePoll } from '@/services/poll/poll';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import socket from '@/services/poll/socket';
+import { Footer } from '@/components/Footer';
 
 export const Home = () => {
   const [polls, setPolls] = useState([]);
@@ -52,8 +53,9 @@ export const Home = () => {
   };
 
   return (
-    <div className="px-4 py-5 max-w-5xl mx-auto">
-      <h1 className="text-4xl font-bold text-center text-amber-500 mb-10">🗳️ Recent Polls</h1>
+    <>
+    <div className="px-4 py-5 max-w-5xl mx-auto min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-amber-500 mb-10 mt-15">🗳️ Recent Polls</h1>
 
       {loading ? (
         <div className="flex justify-center items-center text-gray-500 py-16">
@@ -126,5 +128,9 @@ export const Home = () => {
         </div>
       )}
     </div>
+    <div className='bottom-0'>
+    <Footer/>
+    </div>
+    </>
   );
 };
