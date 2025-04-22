@@ -3,7 +3,7 @@ import { axiosInstance } from "@/axios/axios";
 
 export const getPolls = async () => {
     try {
-        const response = await axiosInstance.get("/polls");
+        const response = await axiosInstance.get("/poll");
         return response;
     } catch (error) {
         throw error;
@@ -19,6 +19,17 @@ export const createPoll = async (data, user) => {
             }
         });
         return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const votePoll = async (data) => {
+    console.log(data.optionIndex, data.pollId);
+    
+    try {
+        const response = await axiosInstance.post(`/poll/votes/${data.pollId}`, { optionIndex: data.optionIndex });
+        return response
     } catch (error) {
         throw error;
     }

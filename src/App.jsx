@@ -10,13 +10,13 @@ import { ProtectedRoute } from './services/ProtectedRoute'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <Header/>
       <Routes>
         <Route path="/signup" element={<PublicRoute><Signup/></PublicRoute>} />
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/" element={<Home />} />
-        <Route path="/create-poll" element={<ProtectedRoute><CreatePoll/></ProtectedRoute>>} />
+        <Route path="/create-poll" element={<ProtectedRoute><CreatePoll/></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

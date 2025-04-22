@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
 import { Message } from '@/utils/Message';
 import { createPoll } from '@/services/poll/poll';
 
@@ -12,7 +10,8 @@ export const CreatePoll = () => {
   const { user } = useContext(AuthContext);
   const [response, setResponse] = useState(null);
   const [question, setQuestion] = useState('');
-  const [options, setOptions] = useState(['', '', '', '']); // Default to 4 options
+  const [options, setOptions] = useState(['', '', '', '']);
+
   const handleOptionChange = (index, value) => {
     const updated = [...options];
     updated[index] = value;
@@ -21,65 +20,73 @@ export const CreatePoll = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(filteredOptions, question, user); 
-    
     if (!user) {
       setResponse({ status: 401, data: { message: 'Please log in to create a poll' } });
       return;
     }
-    
+
     try {
       const filteredOptions = options.filter(opt => opt.trim());
       const result = await createPoll({ question, options: filteredOptions }, user);
-      console.log(result);
       setResponse(result);
       setQuestion('');
-      setOptions(['', '', '', '']); // Reset to 4 options after successful creation
+      setOptions(['', '', '', '']);
     } catch (err) {
-      setResponse(err.response)
+      setResponse(err.response);
     }
   };
 
   return (
-    <div className="flex justify-center p-4 flex-col">
-      {response && <div className="mb-4"><Message response={response} /></div>}
-      <Card className="w-full max-w-2xl shadow-md rounded-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Create a Poll</CardTitle>
-        </CardHeader>
-        <CardContent>
+    <div className="flex justify-center items-center mt-5 px-4">
+      <div className="w-full max-w-xl">
+        {response && <div className="mb-4"><Message response={response} /></div>}
+        <Card className="rounded-2xl shadow-lg border border-gray-200 bg-white">
+          <CardHeader className="rounded-t-2xl px-5 py-3">
+            <CardTitle className="text-2xl font-semibold text-center text-gray-800">
+              ✨ Create a Poll
+            </CardTitle>
+          </CardHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label>Question</Label>
-              <Input
-                placeholder="What is your question?"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                required
-              />
-            </div>
-
-            {options.map((opt, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <div className="w-full">
-                  <Label>Option {index + 1}</Label>
-                  <Input
-                    placeholder={`Option ${index + 1}`}
-                    value={opt}
-                    onChange={(e) => handleOptionChange(index, e.target.value)}
-                    required
-                  />
-                </div>
+          <CardContent className="p-5 space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <input
+                  id="question"
+                  placeholder="What's your poll question?"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  className="mt-1 border border-gray-300 rounded-md p-2 w-full
+    focus:outline-none focus:ring-0 focus:border-gray-400 focus-visible:outline-none"
+                  required
+                />
               </div>
-            ))}
 
-            <Button type="submit" className="w-full bg-amber-400 text-black hover:bg-amber-300">
-              Create Poll
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              <div className="space-y-3">
+                {options.map((opt, index) => (
+                  <div key={index}>
+                    <input
+                      id={`option-${index}`}
+                      placeholder={`Enter option ${index + 1}`}
+                      value={opt}
+                      onChange={(e) => handleOptionChange(index, e.target.value)}
+                      className="mt-1 border-gray-300 border rounded-md p-2 w-full 
+                      focus:ring-0 focus:outline-none focus:border-gray-400"
+                      required
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-gray-500 text-black hover:bg-gray-400 transition-colors font-semibold text-md py-2 rounded-xl"
+              >
+                🚀 Create Poll
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
