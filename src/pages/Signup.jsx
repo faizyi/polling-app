@@ -5,11 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Message } from '@/utils/Message';
+import { Loader } from 'lucide-react';
 
 export const Signup = () => {
   const { signup } = useContext(AuthContext);
   const [response, setResponse] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ fullName: '', email: '', password: '' });
 
   const handleChange = (e) => {
@@ -18,6 +20,7 @@ export const Signup = () => {
 
   const onFinish = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await signup(form);
       setResponse(result);
@@ -26,6 +29,8 @@ export const Signup = () => {
       }
     } catch (error) {
       setResponse(error.response);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,12 +96,15 @@ export const Signup = () => {
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-amber-700 text-white hover:bg-amber-600 font-semibold py-2.5 rounded-xl text-md transition"
-              >
-                🚀 Create Account
-              </Button>
+              {loading ? <Loader className="animate-spin w-full" /> :
+                <Button
+                  type="submit"
+                  className="w-full bg-amber-700 text-white hover:bg-amber-600 font-semibold py-2.5 rounded-xl text-md transition"
+                >
+                  🚀 Create Account
+                </Button>
+              }
+
 
               <p className="text-sm text-center text-gray-600">
                 Already have an account?{' '}

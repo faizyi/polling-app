@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({
     baseURL: 'https://polling-app-server-production.up.railway.app',
+    // baseURL: 'http://localhost:8001',
     headers: {
         'Content-Type': 'application/json',
     },

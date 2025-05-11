@@ -5,12 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AuthContext } from '../context/AuthContext';
 import { Message } from '@/utils/Message';
 import { createPoll } from '@/services/poll/poll';
+import { Loader } from 'lucide-react';
 
 export const CreatePoll = () => {
   const { user } = useContext(AuthContext);
   const [response, setResponse] = useState(null);
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
+  const [loading, setLoading] = useState(false);
 
   const handleOptionChange = (index, value) => {
     const updated = [...options];
@@ -20,6 +22,7 @@ export const CreatePoll = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!user) {
       setResponse({ status: 401, data: { message: 'Please log in to create a poll' } });
       return;
@@ -33,6 +36,8 @@ export const CreatePoll = () => {
       setOptions(['', '', '', '']);
     } catch (err) {
       setResponse(err.response);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,12 +82,15 @@ export const CreatePoll = () => {
                 ))}
               </div>
 
+              {
+                loading ? <Loader className="animate-spin w-full" /> : 
               <Button
                 type="submit"
-                className="w-full  bg-amber-700 text-white hover:bg-amber-600 transition-colors font-semibold text-md py-2 rounded-xl"
+                className="w-full bg-amber-700 text-white hover:bg-amber-600 transition-colors font-semibold text-md py-2 rounded-xl"
               >
                 🚀 Create Poll
               </Button>
+              }
             </form>
           </CardContent>
         </Card>

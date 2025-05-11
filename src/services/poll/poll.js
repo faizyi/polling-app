@@ -25,8 +25,6 @@ export const createPoll = async (data, user) => {
 }
 
 export const votePoll = async (data) => {
-    console.log(data.optionIndex, data.pollId);
-    
     try {
         const response = await axiosInstance.post(`/poll/votes/${data.pollId}`, { optionIndex: data.optionIndex });
         return response
